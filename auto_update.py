@@ -16,6 +16,7 @@ version_info = (
 def versiyon_kontrol():
     """ Versiyon Kontrol """
     # Sunucudan versiyon.txt dosyasini oku
+    print("versiyon_kontrol start")
     versiyon = "https://www.mesebilisim.com/media/v/versiyon.txt"
     r = requests.get(versiyon, allow_redirects=True)
     open('versiyon.txt', 'wb').write(r.content)
@@ -34,6 +35,8 @@ def versiyon_kontrol():
     # kaydet
     # open('D:\\Users\\elect\\Documents\\projects\\python\\auto_update\\aaa.jpg', 'wb').write(r.content)
     # print("ok")
+
+    print("versiyon_kontrol end")
 
     if version_info[0] < v[0]:
         print("guncelle 1")
