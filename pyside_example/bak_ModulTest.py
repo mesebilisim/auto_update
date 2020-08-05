@@ -7,15 +7,13 @@ import sys
 import time
 import socket
 import select
-from functools import partial
-from math import ceil
 from threading import Thread
 
 import requests
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QApplication, QPushButton, QLineEdit, QAction, QDateEdit, QDialog, QDialogButtonBox, \
+from PySide2.QtWidgets import QApplication, QPushButton, QLineEdit, QDialog, QDialogButtonBox, \
     QVBoxLayout
-from PySide2.QtCore import QFile, QObject, QDate
+from PySide2.QtCore import QFile, QObject
 
 
 class CustomDialog(QDialog):
@@ -335,7 +333,7 @@ class Form(QObject):
         return True
 
     def guncelle(self):
-        import update
+        from pyside_example import update
         if update.yeni_dosya():
             print("update bittiiiiiiiiiiiiiii")
             self.th_exit = True

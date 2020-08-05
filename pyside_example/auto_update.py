@@ -50,7 +50,7 @@ def versiyon_kontrol():
 
 
 def guncelle():
-    import update
+    from pyside_example import update
     update.yeni_dosya()
     return True
 
