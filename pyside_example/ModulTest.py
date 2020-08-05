@@ -3,35 +3,19 @@
 # Sahin MERSIN
 
 import configparser
+import os
 import sys
 import time
 import socket
 import select
 from threading import Thread
 
+import psutil
 import requests
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QApplication, QPushButton, QLineEdit, QDialog, QDialogButtonBox, \
     QVBoxLayout
 from PySide2.QtCore import QFile, QObject
-
-
-class CustomDialog(QDialog):
-
-    def __init__(self, *args, **kwargs):
-        super(CustomDialog, self).__init__(*args, **kwargs)
-
-        self.setWindowTitle("HELLO!")
-
-        QBtn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-
-        self.buttonBox = QDialogButtonBox(QBtn)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
-
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(self.buttonBox)
-        self.setLayout(self.layout)
 
 
 class Form(QObject):
@@ -51,8 +35,6 @@ class Form(QObject):
         )
 
         self.startTime = time.time()
-
-        self.th_exit = False
 
         self.th = Thread(target=self.thread_function, daemon=True)
         self.th.start()
@@ -200,12 +182,9 @@ class Form(QObject):
         self.msg_gonder(MESSAGE)
 
     def gorev_1_send(self):
-        sys.exit(app.exec_())
-        # dlg = CustomDialog(self)
-        # if dlg.exec_():
-        #     print("Success!")
-        # else:
-        #     print("Cancel!")
+        MESSAGE = self.gonder_1.text()
+        self.msg_gonder(MESSAGE)
+
 
     def gorev_2_send(self):
         MESSAGE = self.gonder_2.text()
@@ -295,7 +274,7 @@ class Form(QObject):
     def versiyon_kontrol(self):
         """ Versiyon Kontrol """
         # Sunucudan versiyon.txt dosyasini oku
-        versiyon = "https://www.mesebilisim.com/media/v/versiyon.txt"
+        versiyon = "https://www.mesebilisim.com/media/v/pyside_example/versiyon.txt"
         r = requests.get(versiyon, allow_redirects=True)
         open('versiyon.txt', 'wb').write(r.content)
 
@@ -324,21 +303,26 @@ class Form(QObject):
 
         return False
 
-    def cik(self):
-        print("cikkkkkkkkkk")
-        # sys.exit()
-        # self.th.join()
-        # sys.exit(app.exec_())
+    def restart_program(self):
+        """Restarts the current program, with file objects and descriptors
+           cleanup
+        """
+        try:
+            p = psutil.Process(os.getpid())
+            for handler in p.get_open_files() + p.connections():
+                os.close(handler.fd)
+        except:
+            pass
 
-        return True
+        python = sys.executable
+        os.execl(python, python, *sys.argv)
+
 
     def guncelle(self):
-        from pyside_example import update
+        import update
         if update.yeni_dosya():
             print("update bittiiiiiiiiiiiiiii")
-            self.th_exit = True
-            self.cik()
-            # sys.exit(app.exec_())
+            self.restart_program()
         else:
             print("ne olduuuuuuuuu")
 
@@ -346,29 +330,18 @@ class Form(QObject):
 
     def thread_function(self):
         while True:
-            while True:
-                if self.th_exit:
-                    print("thread_function cik")
-                    break
-                executionTime = (time.time() - self.startTime)
-                if executionTime > 10:
-                    self.startTime = time.time()
-                    print("guncelleme kontrol basliyor")
-                    if self.versiyon_kontrol():
-                        print("guncelle")
-                        time.sleep(2)
-                        self.guncelle()
-                        time.sleep(2)
-                        print("guncelleme bitti")
-                        break
-                    else:
-                        print("devam et")
-                time.sleep(1)
-
-            print("while cikildi")
-            self.gorev_1_send()
+            executionTime = (time.time() - self.startTime)
+            if executionTime > 10:
+                self.startTime = time.time()
+                print("guncelleme kontrol basliyor")
+                if self.versiyon_kontrol():
+                    print("guncelle")
+                    self.guncelle()
+                    time.sleep(2)
+                    print("guncelleme bitti")
+                else:
+                    print("devam et")
             time.sleep(1)
-            sys.exit()
 
 
 if __name__ == '__main__':
