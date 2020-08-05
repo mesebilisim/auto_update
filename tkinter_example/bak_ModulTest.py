@@ -1,18 +1,36 @@
 # Modul Test
 # 11.11.2019
 # Sahin MERSIN
+import os
 import sys
 import time
 import tkinter as tk
 from threading import Thread
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
+import psutil as psutil
 import requests
 
 version_info = (
     1,
     4
 )
+
+
+def restart_program():
+    """Restarts the current program, with file objects and descriptors
+       cleanup
+    """
+
+    try:
+        p = psutil.Process(os.getpid())
+        for handler in p.get_open_files() + p.connections():
+            os.close(handler.fd)
+    except:
+        pass
+
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 
 def open_file():
@@ -79,7 +97,9 @@ def guncelle():
         th_exit = True
 
         # from subprocess import call
-        # call(["python", "ModulTest.py"])
+        # call(["python", "runpy.py"])
+
+        restart_program()
 
         sys.exit()
         # cik()
@@ -130,6 +150,8 @@ def test2():
         time.sleep(2)
         print("guncelleme bitti")
         sys.exit()
+    else:
+        print("yeni guncelleme yok")
 
 
 window = tk.Tk()
@@ -157,6 +179,9 @@ txt_edit.grid(row=0, column=1, sticky="nsew")
 startTime = time.time()
 
 th_exit = False
+
+th = Thread(target=thread_function, daemon=True)
+th.start()
 
 window.mainloop()
 
