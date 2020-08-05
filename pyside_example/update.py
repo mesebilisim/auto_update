@@ -1,6 +1,12 @@
+# Auto Update
+# 05.08.2020
+# Sahin MERSIN
+# Mese Bilisim
+# https://www.mesebilisim.com
 # sunucudan versiyon bilgisi ceksin
 # yeni ve eski dosyayi degistirir
-# bir liste alsin, neler degisti ise icinde yazsin, ona gore yeni dosyalari indirsin, eski dosya isimlerini degistirsin ve indirdiklerini yeni dosya olarak kaydetsin
+# bir liste alsin, neler degisti ise icinde yazsin, ona gore yeni dosyalari indirsin,
+# eski dosya isimlerini degistirsin ve indirdiklerini yeni dosya olarak kaydetsin
 
 import os
 import time

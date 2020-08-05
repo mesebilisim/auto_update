@@ -1,6 +1,8 @@
 # Modul Test
-# 11.11.2019
+# 05.08.2020
 # Sahin MERSIN
+# Mese Bilisim
+# https://www.mesebilisim.com
 import os
 import sys
 import time
