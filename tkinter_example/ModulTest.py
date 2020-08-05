@@ -78,8 +78,8 @@ def guncelle():
         print("update bittiiiiiiiiiiiiiii")
         th_exit = True
 
-        # from subprocess import call
-        # call(["python", "ModulTest.py"])
+        from subprocess import call
+        call(["python", "runpy.py"])
 
         sys.exit()
         # cik()
@@ -130,6 +130,8 @@ def test2():
         time.sleep(2)
         print("guncelleme bitti")
         sys.exit()
+    else:
+        print("yeni guncelleme yok")
 
 
 window = tk.Tk()
