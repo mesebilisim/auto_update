@@ -14,6 +14,7 @@ version_info = (
     4
 )
 
+
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -31,7 +32,7 @@ def open_file():
 def versiyon_kontrol():
     """ Versiyon Kontrol """
     # Sunucudan versiyon.txt dosyasini oku
-    versiyon = "https://www.mesebilisim.com/media/v/versiyon.txt"
+    versiyon = "https://www.mesebilisim.com/media/v/tkinter_example/versiyon.txt"
     r = requests.get(versiyon, allow_redirects=True)
     open('versiyon.txt', 'wb').write(r.content)
 
@@ -60,6 +61,7 @@ def versiyon_kontrol():
 
     return False
 
+
 def cik():
     print("cikkkkkkkkkk")
     sys.exit()
@@ -68,12 +70,17 @@ def cik():
 
     # return True
 
+
 def guncelle():
     global th_exit
     import update
     if update.yeni_dosya():
         print("update bittiiiiiiiiiiiiiii")
         th_exit = True
+
+        # from subprocess import call
+        # call(["python", "ModulTest.py"])
+
         sys.exit()
         # cik()
         # sys.exit(app.exec_())
@@ -81,6 +88,7 @@ def guncelle():
         print("ne olduuuuuuuuu")
 
     return True
+
 
 def thread_function():
     global startTime
@@ -108,9 +116,11 @@ def thread_function():
     time.sleep(1)
     sys.exit()
 
+
 def test():
     th = Thread(target=thread_function, daemon=True)
     th.start()
+
 
 def test2():
     if versiyon_kontrol():
@@ -121,8 +131,9 @@ def test2():
         print("guncelleme bitti")
         sys.exit()
 
+
 window = tk.Tk()
-window.title("Simple Text Editor")
+window.title("Simple Text Editor " + str(version_info))
 window.rowconfigure(0, minsize=300, weight=1)
 window.columnconfigure(1, minsize=300, weight=1)
 
