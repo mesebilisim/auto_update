@@ -13,7 +13,7 @@ import requests
 
 version_info = (
     1,
-    4
+    5
 )
 
 
@@ -90,14 +90,9 @@ def cik():
 
 
 def guncelle():
-    global th_exit
     import update
     if update.yeni_dosya():
         print("update bittiiiiiiiiiiiiiii")
-        th_exit = True
-
-        # from subprocess import call
-        # call(["python", "runpy.py"])
 
         restart_program()
 
@@ -114,45 +109,19 @@ def thread_function():
     global startTime
     global th_exit
     while True:
-        if th_exit:
-            print("thread_function cik")
-            break
         executionTime = (time.time() - startTime)
         if executionTime > 10:
             startTime = time.time()
             print("guncelleme kontrol basliyor")
             if versiyon_kontrol():
                 print("guncelle")
-                time.sleep(2)
+                time.sleep(1)
                 guncelle()
-                time.sleep(2)
+                time.sleep(1)
                 print("guncelleme bitti")
-                break
             else:
                 print("devam et")
         time.sleep(1)
-
-    print("while cikildi")
-    time.sleep(1)
-    sys.exit()
-
-
-def test():
-    th = Thread(target=thread_function, daemon=True)
-    th.start()
-
-
-def test2():
-    if versiyon_kontrol():
-        print("guncelle")
-        time.sleep(2)
-        guncelle()
-        time.sleep(2)
-        print("guncelleme bitti")
-        sys.exit()
-    else:
-        print("yeni guncelleme yok")
-
 
 window = tk.Tk()
 window.title("Simple Text Editor " + str(version_info))
@@ -163,22 +132,16 @@ txt_edit = tk.Text(window)
 fr_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(fr_buttons, text="Open", command=open_file)
 btn_save = tk.Button(fr_buttons, text="Save As...")
-btn_test = tk.Button(fr_buttons, text="Test", command=test)
-btn_test2 = tk.Button(fr_buttons, text="Test 2", command=test2)
 btn_cik = tk.Button(fr_buttons, text="Cik", command=cik)
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5)
-btn_test.grid(row=2, column=0, sticky="ew", padx=5)
-btn_test2.grid(row=3, column=0, sticky="ew", padx=5)
 btn_cik.grid(row=4, column=0, sticky="ew", padx=5)
 
 fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 
 startTime = time.time()
-
-th_exit = False
 
 th = Thread(target=thread_function, daemon=True)
 th.start()
