@@ -39,7 +39,7 @@ class Form(QObject):
         self.th = Thread(target=self.thread_function, daemon=True)
         self.th.start()
 
-        self.window.setWindowTitle("Modül Test")
+        self.window.setWindowTitle("Modül Test " + str(self.version_info))
 
         self.cfg_file = "ModulTest.ini"
 
